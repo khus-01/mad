@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  // 🔥 VARIABLES (use for gesture, form, etc.)
+  bool isOn = false;
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("My App")),
+
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            // 🔹 TEXT (Exp 2)
+            Text("Hello Flutter"),
+
+            // 🔹 BUTTON (Exp 2 / 5)
+            ElevatedButton(
+              onPressed: () {
+                // Navigation example
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SecondPage()),
+                );
+              },
+              child: Text("Go Next"),
+            ),
+
+            // 🔹 FORM (Exp 4)
+            Form(
+              key: _formKey,
+              child: TextFormField(
+                decoration: InputDecoration(labelText: "Enter Name"),
+                validator: (value) {
+                  if (value == null || value.isEmpty) return "Enter value";
+                  return null;
+                },
+              ),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  print("Valid");
+                }
+              },
+              child: Text("Submit"),
+            ),
+
+            // 🔹 GESTURE (Exp 6)
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isOn = !isOn;
+                });
+              },
+              child: Text(isOn ? "ON" : "OFF"),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SecondPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Second Page")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Welcome to Second Page"),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Go Back"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
